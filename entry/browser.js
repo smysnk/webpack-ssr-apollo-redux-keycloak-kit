@@ -6,11 +6,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
-import { ModuleRouter, reducers } from 'src/index';
+import { ModuleRouter, reducers, keycloakInit } from 'src/index';
 import createNewStore from 'kit/lib/redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
-import createClient from '../lib/apollo';
+import { KeycloakProvider } from 'use-keycloak';
+import createApolloClient from '../lib/apollo';
+
 
 const { store, history } = createNewStore({
   reducers,
@@ -38,14 +40,17 @@ const Root = (() => {
       }
     }, []);
 
-    const client = createClient({ store });
+    const client = createApolloClient(store);
+    const keycloak = keycloakInit(store);
 
     return (
       <Provider store={ store }>
         <ConnectedRouter history={ history }>
           <HelmetProvider context={ helmetContext }>
             <ApolloProvider client={ client }>
-              <ModuleRouter />
+              <KeycloakProvider keycloak={ keycloak }>
+                <ModuleRouter />
+              </KeycloakProvider>
             </ApolloProvider>
           </HelmetProvider>
         </ConnectedRouter>

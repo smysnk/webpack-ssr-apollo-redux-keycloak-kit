@@ -3,7 +3,7 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import PATHS from 'config/paths';
-import server, { createReactHandler, staticMiddleware } from '../lib/server';
+import server, { createReactHandler } from '../lib/server';
 
 const manifest = JSON.parse(readFileSync(path.resolve(PATHS.public, 'manifest.json'), 'utf8'));
 
@@ -20,7 +20,6 @@ const scripts = [
 
   router.get('(.*)', createReactHandler(css, scripts));
   app
-    .use(staticMiddleware())
     .use(router.routes())
     .use(router.allowedMethods());
 
