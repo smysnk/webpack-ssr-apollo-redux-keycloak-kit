@@ -65,7 +65,7 @@ export default new WebpackConfig()
     //   tls: 'empty',
     // },
     devServer: {
-      contentBase: [path.join(__dirname, '../static')],
+      contentBase: [path.join(__dirname, '../../static')],
     },
     optimization: {
       // runtimeChunk: true,
