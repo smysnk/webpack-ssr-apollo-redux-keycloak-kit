@@ -10,6 +10,7 @@ import PATHS from '../../config/paths';
 import { isSSR, isDevelopmentMode } from './base';
 
 const plugins = [
+  // Overriden by server state in SSR mode
   new webpack.DefinePlugin({
     SERVER: false,
     VERSION: '"development"',
@@ -56,43 +57,22 @@ export default new WebpackConfig()
   .merge({
     entry,
     target: 'web',
-    // Set-up some common mocks/polyfills for features available in node, so
-    // the browser doesn't balk when it sees this stuff
-    // node: {
-    //   console: true,
-    //   fs: 'empty',
-    //   net: 'empty',
-    //   tls: 'empty',
-    // },
     devServer: {
       contentBase: [path.join(__dirname, '../../static')],
     },
     optimization: {
-      // runtimeChunk: true,
       splitChunks: {
         cacheGroups: {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             // cacheGroupKey here is `commons` as the key of the cacheGroup
             name(module, chunks, cacheGroupKey) {
-              // const moduleFileName = module.identifier().split('/').reduceRight(item => item);
-              // const allChunksNames = chunks.map(item => item.name).join('~');
               return `${ cacheGroupKey }`;
             },
             chunks: 'all',
           },
         },
       },
-      // minimizer: [
-      //   // new UglifyJsPlugin({
-      //   //   cache: true,
-      //   //   parallel: true,
-      //   //   sourceMap: true
-      //   // }),
-      //   new OptimizeCSSAssetsPlugin({}),
-      //   // new BundleAnalyzerPlugin()
-      // ],
-
     },
     devtool: isDevelopmentMode() ? 'source-map' : 'hidden-source-map',
     // Modules specific to our browser bundle

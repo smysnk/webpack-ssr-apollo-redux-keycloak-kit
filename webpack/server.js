@@ -19,6 +19,7 @@ import { hostDevServer } from './base';
 let subprocess;
 
 const plugins = [
+  // Builds SERVER + VERSION into the build, the other values are often overriden at runtime
   new webpack.DefinePlugin({
     SERVER: true,
     VERSION: `"${ process.env.VERSION }"`,
