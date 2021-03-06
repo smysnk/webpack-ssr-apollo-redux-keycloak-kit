@@ -84,7 +84,7 @@ export default new WebpackConfig()
       path: PATHS.public,
       publicPath: '/',
       // filename: '[name].js',
-      filename: isDevelopmentMode() ? 'js/[name].js' : 'js/[name].[hash].js',
+      filename: isDevelopmentMode() ? 'js/[name].js' : 'js/[name].[contenthash].js',
     },
     plugins,
   });
