@@ -1,6 +1,11 @@
 FROM node:15-alpine
 WORKDIR /app
 
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm install 
+
 # Add the remaining project files
 COPY . .
 
