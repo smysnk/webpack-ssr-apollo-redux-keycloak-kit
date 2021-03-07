@@ -1,5 +1,5 @@
 import WebpackConfig from 'webpack-config';
-import PATHS from '../../config/paths';
+import PATHS from '../../paths';
 
 export const isDevelopmentMode = () => (process.env.NODE_ENV !== 'production');
 export const isSSR = () => (!!process.env.SSR);

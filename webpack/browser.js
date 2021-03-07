@@ -6,7 +6,7 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-import PATHS from '../../config/paths';
+import PATHS from '../../paths';
 import { isSSR, isDevelopmentMode } from './base';
 
 const plugins = [

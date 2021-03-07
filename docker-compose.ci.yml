@@ -1,0 +1,6 @@
+version: '3'
+services:
+  app:
+    image: ${DOCKER_URL}${DOCKER_NAMESPACE}:${CI_COMMIT_SHA}
+    ports:
+      - ${PORT}:3000

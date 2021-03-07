@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    build:
+      dockerfile:  ./kit/docker/Dockerfile
+      context: .
+    environment:
+      - API_ENDPOINT=${API_ENDPOINT}
+      - API_SECURE=${API_SECURE}
+      - KEYCLOAK_REALM_NAME=${KEYCLOAK_REALM_NAME}
+      - KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_AUTH_SERVER_URL}
+      - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
+      - KEYCLOAK_ON_LOAD=${KEYCLOAK_ON_LOAD}

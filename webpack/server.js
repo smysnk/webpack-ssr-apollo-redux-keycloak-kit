@@ -11,7 +11,7 @@ import webpack from 'webpack';
 import WebpackConfig from 'webpack-config';
 import { spawn } from 'child_process';
 
-import PATHS from '../../config/paths';
+import PATHS from '../../paths';
 import { hostDevServer } from './base';
 
 // ----------------------

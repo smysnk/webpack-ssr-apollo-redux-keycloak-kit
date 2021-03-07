@@ -1,0 +1,8 @@
+FROM node:15-alpine
+WORKDIR /app
+
+# Add the remaining project files
+COPY . .
+
+# Start the server by default
+CMD npm run dev

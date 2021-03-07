@@ -2,7 +2,7 @@
 
 import path from 'path';
 import { readFileSync } from 'fs';
-import PATHS from 'config/paths';
+import PATHS from '../../paths';
 import server, { createReactHandler } from '../lib/server';
 
 const manifest = JSON.parse(readFileSync(path.resolve(PATHS.public, 'manifest.json'), 'utf8'));
