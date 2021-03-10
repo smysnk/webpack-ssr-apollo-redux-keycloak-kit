@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "lib": ["es6"],
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "paths": {
+      "*": [
+        "node_modules/*",
+      ]
+    },
+    "typeRoots": [ "src/types", "node_modules/@types" ],
+  },
+  "include": [
+    "**/*.ts"
+, "command.ts", "index.ts"  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.ispec.ts",
+    "**/*.js",
+  ]
+}

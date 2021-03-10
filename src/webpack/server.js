@@ -11,8 +11,8 @@ import webpack from 'webpack';
 import WebpackConfig from 'webpack-config';
 import { spawn } from 'child_process';
 
-import PATHS from '../../paths';
-import { hostDevServer } from './base';
+import PATHS from '../paths';
+import base, { hostDevServer } from './base';
 
 // ----------------------
 
@@ -67,36 +67,42 @@ if (hostDevServer()) {
   });
 }
 
-export default new WebpackConfig()
-  .extend('[root]/base.js', conf => conf)
-  .merge({
-    target: 'node',
+export default (webpackDir) => {
 
-    node: {
-      __dirname: true, // Fixes an issue with __dirname returning '/'
-    },
+  console.log('abc');
+  
+  return new WebpackConfig()
+    .extend(path.join(webpackDir, 'base.js'))
+    .merge({
+      target: 'node',
 
-    entry: {
-      browser: [
-        path.join(PATHS.entry, 'server.js'),
-      ],
-    },
+      node: {
+        __dirname: true, // Fixes an issue with __dirname returning '/'
+      },
 
-    output: {
-      path: PATHS.dist,
-      publicPath: '',
-      filename: 'app.js',
-    },
+      entry: {
+        browser: [
+          path.join(PATHS.entry, 'server.js'),
+        ],
+      },
 
-    optimization: {
-      runtimeChunk: false,
-      minimize: false,
-    },
-    // Modules specific to our browser bundle
-    module: {
-      rules: [
-      ],
-    },
-    plugins,
+      output: {
+        path: PATHS.dist,
+        publicPath: '',
+        filename: 'app.js',
+      },
 
-  });
+      optimization: {
+        runtimeChunk: false,
+        minimize: false,
+      },
+      // Modules specific to our browser bundle
+      module: {
+        rules: [
+        ],
+      },
+      plugins,
+
+    });
+
+}

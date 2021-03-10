@@ -11,7 +11,7 @@ import createNewStore from 'kit/lib/redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { KeycloakProvider } from 'use-keycloak';
-import createApolloClient from '../lib/apollo';
+import createApolloClient from '../../lib/apollo';
 
 
 const { store, history } = createNewStore({

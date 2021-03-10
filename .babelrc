@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        // "debug": true,
+        "loose": true,
+        "modules": "commonjs",
+        "shippedProposals": true,
+        "targets": false,
+      },
+    ],
+   "@babel/preset-react"
+  ],
+  "plugins": [    
+    [ "module-resolver", {"root": ["./"]}]
+  ]
+}

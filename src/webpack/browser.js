@@ -6,8 +6,8 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-import PATHS from '../../paths';
-import { isSSR, isDevelopmentMode } from './base';
+import PATHS from '../paths';
+import base, { isSSR, isDevelopmentMode } from './base';
 
 const plugins = [
   // Overriden by server state in SSR mode
@@ -52,39 +52,47 @@ if (isSSR()) {
   plugins.push(extractHTML);
 }
 
-export default new WebpackConfig()
-  .extend('[root]/base.js')
-  .merge({
-    entry,
-    target: 'web',
-    devServer: {
-      contentBase: [path.join(__dirname, '../../static')],
-    },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            // cacheGroupKey here is `commons` as the key of the cacheGroup
-            name(module, chunks, cacheGroupKey) {
-              return `${ cacheGroupKey }`;
+export default (webpackDir) => {
+
+  console.log('abc');
+  
+  
+  return new WebpackConfig()
+    .extend(path.join(webpackDir, 'base.js'))
+    .merge({
+      entry,
+      target: 'web',
+      devServer: {
+        contentBase: [PATHS.static],
+      },
+      optimization: {
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              // cacheGroupKey here is `commons` as the key of the cacheGroup
+              name(module, chunks, cacheGroupKey) {
+                return `${ cacheGroupKey }`;
+              },
+              chunks: 'all',
             },
-            chunks: 'all',
           },
         },
       },
-    },
-    devtool: isDevelopmentMode() ? 'source-map' : 'hidden-source-map',
-    // Modules specific to our browser bundle
-    module: {
-      rules: [
-      ],
-    },
-    output: {
-      path: PATHS.public,
-      publicPath: '/',
-      // filename: '[name].js',
-      filename: isDevelopmentMode() ? 'js/[name].js' : 'js/[name].[contenthash].js',
-    },
-    plugins,
-  });
+      devtool: isDevelopmentMode() ? 'source-map' : 'hidden-source-map',
+      // Modules specific to our browser bundle
+      module: {
+        rules: [
+        ],
+      },
+      output: {
+        path: PATHS.public,
+        publicPath: '/',
+        // filename: '[name].js',
+        filename: isDevelopmentMode() ? 'js/[name].js' : 'js/[name].[contenthash].js',
+      },
+      plugins,
+    });
+  
+
+}

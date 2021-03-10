@@ -1,5 +1,5 @@
 import WebpackConfig from 'webpack-config';
-import PATHS from '../../paths';
+import PATHS from '../paths';
 
 export const isDevelopmentMode = () => (process.env.NODE_ENV !== 'production');
 export const isSSR = () => (!!process.env.SSR);
@@ -8,7 +8,7 @@ export const hostDevServer = () => (!!process.env.DEV_SERVER);
 // Export a new 'base' config, which we can extend/merge from
 export default new WebpackConfig()
   .merge({
-    // context: __dirname,
+    context: __dirname,
     devServer: {
       historyApiFallback: true,
       watchOptions: {
