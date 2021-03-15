@@ -4,9 +4,11 @@ services:
     ports:
       - 3000:3000
     volumes:      
+      - ./kit:/app/kit
       - ./src:/app/src
+      - ./static:/app/static
       - ./package.json:/app/package.json
-    command: npm run dev:ssr
+    command: npm run dev
     build:
       dockerfile: ./kit/docker/Dockerfile-dev
       context: .

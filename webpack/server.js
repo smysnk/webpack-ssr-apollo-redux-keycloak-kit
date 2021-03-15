@@ -24,6 +24,7 @@ const plugins = [
     SERVER: true,
     VERSION: `"${ process.env.VERSION }"`,
     SHA: `"${ process.env.SHA }"`,
+    FRONTEND_URL: `"${ process.env.FRONTEND_URL }"`,
     API_ENDPOINT: `"${ process.env.API_ENDPOINT }"`,
     API_SECURE: process.env.API_SECURE === 'true',
     KEYCLOAK_REALM_NAME: `"${ process.env.KEYCLOAK_REALM_NAME }"`,

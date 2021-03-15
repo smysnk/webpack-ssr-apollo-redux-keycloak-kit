@@ -7,6 +7,7 @@ services:
       dockerfile:  ./kit/docker/Dockerfile
       context: .
     environment:
+      - FRONTEND_URL=${FRONTEND_URL}
       - API_ENDPOINT=${API_ENDPOINT}
       - API_SECURE=${API_SECURE}
       - KEYCLOAK_REALM_NAME=${KEYCLOAK_REALM_NAME}
