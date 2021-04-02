@@ -31,6 +31,7 @@ const plugins = [
     KEYCLOAK_AUTH_SERVER_URL: `"${ process.env.KEYCLOAK_AUTH_SERVER_URL }"`,
     KEYCLOAK_CLIENT_ID: `"${ process.env.KEYCLOAK_CLIENT_ID }"`,
     KEYCLOAK_ON_LOAD: `"${ process.env.KEYCLOAK_ON_LOAD }"`,
+    GA_MEASUREMENT_ID: `"${ process.env.GA_MEASUREMENT_ID }"`,
   }),
 ];
 
