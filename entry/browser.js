@@ -37,22 +37,26 @@ const Root = (() => {
     let key = null;
     let record = [];
     const middleware = [];
-    if (RECORD_STATE) {
-      const recordMiddleware = ({ dispatch, getState }) => (next) => async (action) => {
+
+    // Redux Replay
+    const recordMiddleware = ({ dispatch, getState }) => (next) => async (action) => {
+      const { meta } = getState();
+      if (meta.recordState) {
         record.push([new Date(), action]);
-        return next(action);
-      };
-      middleware.push(recordMiddleware);
-    }
-    
+      }
+      return next(action);
+    };
+    middleware.push(recordMiddleware);
+
     const { store, history } = createNewStore({
       reducers,
       middleware,
     });
+    const { meta } = store.getState();
     const client = createApolloClient(store);
     const keycloak = keycloakInit(store);
 
-    if (RECORD_STATE) {
+    if (meta.recordState) {
       (async () => {
         const { data: { stateRecordStart: { id, error } } } = await client
           .mutate({
