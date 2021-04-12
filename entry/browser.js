@@ -9,14 +9,9 @@ import { Provider } from 'react-redux';
 import { ModuleRouter, reducers, keycloakInit } from 'src/index';
 import createNewStore from 'kit/lib/redux';
 import { HelmetProvider } from 'react-helmet-async';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, gql } from '@apollo/client';
 import { KeycloakProvider } from 'use-keycloak';
 import createApolloClient from '../lib/apollo';
-
-
-const { store, history } = createNewStore({
-  reducers,
-});
 
 // Create the 'root' entry point into the app.  If we have React hot loading
 // (i.e. if we're in development), then we'll wrap the whole thing in an
@@ -29,7 +24,6 @@ function doRender() {
   );
 }
 
-
 const Root = (() => {
   const Chain = () => {
     const helmetContext = {};
@@ -40,8 +34,75 @@ const Root = (() => {
       }
     }, []);
 
+    let key = null;
+    let record = [];
+    const middleware = [];
+    if (RECORD_STATE) {
+      const recordMiddleware = ({ dispatch, getState }) => (next) => async (action) => {
+        record.push([new Date(), action]);
+        return next(action);
+      };
+      middleware.push(recordMiddleware);
+    }
+    
+    const { store, history } = createNewStore({
+      reducers,
+      middleware,
+    });
     const client = createApolloClient(store);
     const keycloak = keycloakInit(store);
+
+    if (RECORD_STATE) {
+      // stateRecordStart(host: String!, payload: String!): RecordSessionResult
+      // stateRecord(key: String!, payload: String!): SimpleResult
+
+      (async () => {
+        const { data: { stateRecordStart: { id, error } } } = await client
+          .mutate({
+            mutation: gql`
+              mutation RecordStateStart($host: String!, $timestamp: String!, $payload: String!) {
+                stateRecordStart(host: $host, timestamp: $timestamp, payload: $payload) {
+                  id
+                  error
+                }
+              }
+            `,
+            variables: {
+              host: window.location.host,
+              timestamp: new Date(),
+              payload: JSON.stringify(store.getState()),
+            },
+          });
+        if (!error && id) {
+          key = id;
+        }
+      })();
+
+      // Report state to api
+      setInterval(async () => {     
+        if (record.length === 0 || !key) {
+          return;
+        } 
+        const { data: { stateRecord: { error, message } } } = await client
+          .mutate({
+            mutation: gql`
+              mutation RecordState($key: Int!, $payload: String!) {
+                stateRecord(key: $key, payload: $payload) {
+                  error
+                  message
+                }
+              }
+            `,
+            variables: {
+              key,
+              payload: JSON.stringify(record),
+            },
+          });
+        if (error === false) {
+          record = [];
+        }
+      }, 5000);
+    }
 
     return (
       <Provider store={ store }>
