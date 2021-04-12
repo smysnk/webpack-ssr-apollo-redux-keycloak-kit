@@ -32,7 +32,7 @@ const plugins = [
     KEYCLOAK_CLIENT_ID: `"${ process.env.KEYCLOAK_CLIENT_ID }"`,
     KEYCLOAK_ON_LOAD: `"${ process.env.KEYCLOAK_ON_LOAD }"`,
     GA_MEASUREMENT_ID: `"${ process.env.GA_MEASUREMENT_ID }"`,
-    RECORD_STATE: false,
+    RECORD_STATE: `"${ process.env.RECORD_STATE }"`,
   }),
 ];
 

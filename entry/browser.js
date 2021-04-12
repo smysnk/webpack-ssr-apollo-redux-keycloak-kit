@@ -53,9 +53,6 @@ const Root = (() => {
     const keycloak = keycloakInit(store);
 
     if (RECORD_STATE) {
-      // stateRecordStart(host: String!, payload: String!): RecordSessionResult
-      // stateRecord(key: String!, payload: String!): SimpleResult
-
       (async () => {
         const { data: { stateRecordStart: { id, error } } } = await client
           .mutate({
